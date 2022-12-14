@@ -2,7 +2,24 @@
 <html lang="en">
   <head>
     <title>Site Offline | The Unus Annus Archive</title>
-    <link rel="stylesheet" href="/main.css" />
+    <style>
+      body {
+        font-family: arial;
+        text-align: center;
+        background-color: #121212;
+        color: #ffffff;
+      }
+
+      a {
+        color: #ffffff;
+      }
+
+      .container {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+        padding: 12px;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -11,6 +28,19 @@
       <p id="reason">Fetching reason...</p>
     </div>
 
-    <script src="/main.js" type="module"></script>
+    <script type="module">
+      const p = document.getElementById("reason");
+
+      fetch("/offline-reason.json")
+        .then((res) => res.json())
+        .then((reason) => {
+          if (reason.reason === "undefined") {
+            p.innerHTML =
+              "No reason provided. There is most likely an issue with the site. Please email us at <a href='mailto:contact@unusannusarchive.tk'>contact@unusannusarchive.tk</a> or join our Discord at <a href='https://discord.gg/PbpJz8r4Pr'>https://discord.gg/PbpJz8r4Pr</a>.";
+          } else {
+            p.innerHTML = reason.reason;
+          }
+        });
+    </script>
   </body>
 </html>
